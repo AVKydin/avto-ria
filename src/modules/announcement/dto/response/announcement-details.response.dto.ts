@@ -1,6 +1,3 @@
-import { UserEntity } from "../../../../database/entities/user.entity";
-
-
 export class AnnouncementDetailsResponseDto {
   id: string;
   year: number;
@@ -9,5 +6,8 @@ export class AnnouncementDetailsResponseDto {
   brand: string;
   createdAt: Date;
   currency: string;
-  user: string;
+  user?: string;
+  priceUah?: number;
+  priceUsd?: number;
+  priceEur?: number;
 }

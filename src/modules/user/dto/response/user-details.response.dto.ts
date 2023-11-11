@@ -1,4 +1,4 @@
-import { AnnouncementDetailsResponseDto } from "../../../announcement/dto/response/announcement-details.response.dto";
+import { AnnouncementDetailsResponseDto } from '../../../announcement/dto/response/announcement-details.response.dto';
 
 export class UserDetailsResponseDto {
   id: string;

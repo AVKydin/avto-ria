@@ -1,8 +1,6 @@
-import { OpenAPIObject } from "@nestjs/swagger/dist/interfaces";
+import { OpenAPIObject } from '@nestjs/swagger/dist/interfaces';
 
-import { UserDetailsResponseDto } from "../../modules/user/dto/response/user-details.response.dto";
-
-const methods = ["get", "post", "patch", "delete"];
+const methods = ['get', 'post', 'patch', 'delete'];
 
 export class SwaggerHelper {
   static setDefaultResponses(doc: OpenAPIObject): void {
@@ -10,23 +8,23 @@ export class SwaggerHelper {
       for (const method of methods) {
         const route = doc.paths[path][method];
         if (route) {
-          if (method === "delete") {
+          if (method === 'delete') {
             Object.assign(route.responses, {
-              204: { description: "No content" },
+              204: { description: 'No content' },
             });
             delete route.responses[200];
           }
           if (route.security) {
             Object.assign(route.responses, {
-              401: { description: "Not authenticated" },
-              403: { description: "Access denied" },
+              401: { description: 'Not authenticated' },
+              403: { description: 'Access denied' },
             });
           }
           Object.assign(route.responses, {
-            400: { description: "Bad request" },
-            404: { description: "Not found" },
-            422: { description: "Entity not found" },
-            500: { description: "Server error" },
+            400: { description: 'Bad request' },
+            404: { description: 'Not found' },
+            422: { description: 'Entity not found' },
+            500: { description: 'Server error' },
           });
         }
       }

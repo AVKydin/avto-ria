@@ -6,12 +6,10 @@ import {
   UnauthorizedException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { InjectRedisClient, RedisClient } from '@webeleon/nestjs-redis';
 import * as bcrypt from 'bcrypt';
 import { OAuth2Client } from 'google-auth-library';
-import * as process from 'process';
 import { EntityManager } from 'typeorm';
 
 import { AccountTypeEnum } from '../../common/enum/model/accountType.enum';
@@ -21,7 +19,6 @@ import { CustomConfigService } from '../../config/config.service';
 import { RoleEntity } from '../../database/entities/role.entity';
 import { UserEntity } from '../../database/entities/user.entity';
 import { AuthService } from '../auth/auth.service';
-import { BearerStrategy } from '../auth/bearer.strategy';
 import { UserCreateRequestDto } from './dto/request/user-create.request.dto';
 import { UserListQueryRequestDto } from './dto/request/user-list-query.request.dto';
 import {
@@ -29,14 +26,11 @@ import {
   UserLoginRequestDto,
 } from './dto/request/user-login.request.dto';
 import { UserUpdateRequestDto } from './dto/request/user-update.request.dto';
-import { UserDetailsResponseDto } from './dto/response/user-details.response.dto';
 import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UserService {
-  // private logger = new Logger();
   private salt = 5;
-  // private RedisPrefixCarData = "CarData";
 
   constructor(
     private readonly customConfigService: CustomConfigService,
@@ -160,10 +154,8 @@ export class UserService {
   }
 
   async buyPremiumType(token: string): Promise<any> {
-    // await this.bearerStrategy.validate(token);
     const decodeToken = await this.authService.decode(token);
     const userId = decodeToken?.['id'];
-    console.log(decodeToken);
     const user = await this.userRepository.findOneBy({ id: userId });
     user.accountType = AccountTypeEnum.PREMIUM;
     return await this.userRepository.save(user);

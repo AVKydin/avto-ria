@@ -1,8 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { CarBrandEnum } from '../../common/enum/car.brand.enum';
 import { AllCarModelEnum } from '../../common/enum/model/allCar.model.enum';
-import { CurrencyEnum } from '../../common/enum/сurrency.enum';
 import { CreatedUpdatedModel } from './common/created-updated.model';
 import { UserEntity } from './user.entity';
 

@@ -21,8 +21,8 @@ export class AuthService {
     return user;
   }
 
-  async verifyToken(token:string) {
-    return this.jwtService.verify(token, )
+  async verifyToken(token: string) {
+    return this.jwtService.verify(token);
   }
 
   async signIn(data: any): Promise<string> {

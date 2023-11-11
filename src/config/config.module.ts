@@ -1,8 +1,8 @@
-import { Module } from "@nestjs/common";
-import { ConfigModule, ConfigService } from "@nestjs/config";
-import * as process from "process";
+import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import * as process from 'process';
 
-import { CustomConfigService } from "./config.service";
+import { CustomConfigService } from './config.service';
 
 @Module({
   imports: [

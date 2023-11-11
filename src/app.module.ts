@@ -6,8 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CustomConfigModule } from './config/config.module';
 import { typeOrmConfig } from './config/type-orm.config';
-import { AuthModule } from './modules/auth/auth.module';
 import { AnnouncementModule } from './modules/announcement/announcement.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 
 @Module({

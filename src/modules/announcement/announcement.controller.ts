@@ -19,12 +19,12 @@ import { Request } from 'express';
 import { RoleDecorator } from '../../common/decorator/role.decorator';
 import { RoleEnum } from '../../common/enum/role.enum';
 import { RoleGuard } from '../../common/guard/role.guard';
+import { UserListQueryRequestDto } from '../user/dto/request/user-list-query.request.dto';
 import { AnnouncementResponseMapper } from './announcement.response.mapper';
 import { AnnouncementService } from './announcement.service';
 import { AnnouncementCreateRequestDto } from './dto/request/announcement-create.request.dto';
 import { AnnouncementUpdateRequestDto } from './dto/request/announcement-update.request.dto';
 import { AnnouncementDetailsResponseDto } from './dto/response/announcement-details.response.dto';
-import { UserListQueryRequestDto } from "../user/dto/request/user-list-query.request.dto";
 
 @ApiTags('Announcement')
 @Controller('announcement')
@@ -42,12 +42,12 @@ export class AnnouncementController {
 
   @ApiOperation({ summary: 'Create new announcement' })
   @ApiBearerAuth()
-  // @RoleDecorator(
-  //   RoleEnum.BUYER,
-  //   RoleEnum.ADMIN,
-  //   RoleEnum.MANAGER,
-  //   RoleEnum.SELLER,
-  // )
+  @RoleDecorator(
+    RoleEnum.BUYER,
+    RoleEnum.ADMIN,
+    RoleEnum.MANAGER,
+    RoleEnum.SELLER,
+  )
   @UseGuards(AuthGuard(), RoleGuard)
   @Post()
   async createAnnouncement(
@@ -64,13 +64,21 @@ export class AnnouncementController {
   }
 
   @ApiOperation({ summary: 'Get announcement by id' })
+  @ApiBearerAuth()
+  @RoleDecorator(
+    RoleEnum.BUYER,
+    RoleEnum.ADMIN,
+    RoleEnum.MANAGER,
+    RoleEnum.SELLER,
+  )
+  @UseGuards(AuthGuard(), RoleGuard)
   @Get(':announcementId')
   async getAnnouncementById(
     @Param('announcementId') announcementId: string,
   ): Promise<AnnouncementDetailsResponseDto> {
-    const announcement =
+    const { announcement, allCurrency } =
       await this.announcementService.getAnnouncementById(announcementId);
-    return AnnouncementResponseMapper.toDetailsDto(announcement);
+    return AnnouncementResponseMapper.toDetailsDto(announcement, allCurrency);
   }
 
   @ApiOperation({ summary: 'Update announcement by id' })

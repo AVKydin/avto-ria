@@ -148,7 +148,6 @@ export class UserController {
   @Patch('buy/premium')
   async buyPremiumType(@Req() req: Request): Promise<UserDetailsResponseDto> {
     const token = req.headers.authorization?.replace('Bearer ', '');
-    console.log(token);
     return await this.userService.buyPremiumType(token);
   }
 }

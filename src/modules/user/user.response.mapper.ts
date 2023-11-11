@@ -3,7 +3,6 @@ import { UserEntity } from '../../database/entities/user.entity';
 import { AnnouncementResponseMapper } from '../announcement/announcement.response.mapper';
 import { UserListQueryRequestDto } from './dto/request/user-list-query.request.dto';
 import { UserListResponseDto } from './dto/response/user-list.response.dto';
-import { AnnouncementEntity } from "../../database/entities/announcement.entity";
 
 export class UserResponseMapper {
   static toListDto(
