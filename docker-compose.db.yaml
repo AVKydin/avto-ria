@@ -1,0 +1,17 @@
+version: '3.5'
+
+services:
+  auto-ria-postgres:
+    image: postgis/postgis
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: auto-ria
+    volumes:
+      - auto-ria-db:/var/lib/postgresql/auto-ria
+
+
+volumes:
+  auto-ria-db:
