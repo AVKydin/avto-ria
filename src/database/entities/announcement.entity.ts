@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import { AllCarModelEnum } from '../../common/enum/model/allCar.model.enum';
 import { CreatedUpdatedModel } from './common/created-updated.model';
@@ -35,6 +41,12 @@ export class AnnouncementEntity extends CreatedUpdatedModel {
 
   @Column({ type: 'text', nullable: true })
   currency: string;
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  viewedAt: Date;
+
+  @Column({ type: 'int', default: 0 })
+  viewsCount: number;
 
   // @Column({ type: 'enum', enum: CurrencyEnum })
   // currency: CurrencyEnum;

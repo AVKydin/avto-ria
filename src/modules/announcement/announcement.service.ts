@@ -13,6 +13,7 @@ import { IList } from '../../common/interface/list.interface';
 import { AnnouncementEntity } from '../../database/entities/announcement.entity';
 import { UserEntity } from '../../database/entities/user.entity';
 import { UserListQueryRequestDto } from '../user/dto/request/user-list-query.request.dto';
+import { UserRepository } from '../user/user.repository';
 import { AnnouncementRepository } from './announcement.repository';
 import { CurrencyConversionService } from './currency.conversion.service';
 import { AnnouncementCreateRequestDto } from './dto/request/announcement-create.request.dto';
@@ -28,6 +29,7 @@ export class AnnouncementService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly announcementRepository: AnnouncementRepository,
+    private readonly userRepository: UserRepository,
     private readonly currencyConversionService: CurrencyConversionService,
     @InjectEntityManager() private readonly entityManager: EntityManager,
   ) {}
@@ -103,7 +105,7 @@ export class AnnouncementService {
     return { announcement, allCurrency };
   }
 
-  public async updateCarById(
+  public async updateAnnouncementById(
     announcementId: string,
     body: AnnouncementUpdateRequestDto,
   ): Promise<AnnouncementEntity> {
@@ -112,7 +114,7 @@ export class AnnouncementService {
     return await this.announcementRepository.save(entity);
   }
 
-  public async deleteCar(announcementId: string): Promise<void> {
+  public async deleteAnnouncement(announcementId: string): Promise<void> {
     const entity = await this.findAnnouncementByIdOrException(announcementId);
     await this.announcementRepository.remove(entity);
   }
@@ -128,5 +130,99 @@ export class AnnouncementService {
       throw new UnprocessableEntityException('announcement entity not found');
     }
     return announcement;
+  }
+
+  public async infoAnnouncement(token: string) {
+    try {
+      const decodeToken = this.jwtService.decode(token);
+      const accountType = decodeToken?.['accountType'];
+      const userId = decodeToken?.['id'];
+      if (accountType === AccountTypeEnum.BASE) {
+        throw new HttpException(
+          'You need to purchase a "premium" account type',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      const user = await this.userRepository.findOne({
+        where: { id: userId },
+        relations: ['announcements'],
+      });
+      const userCity = user.city;
+
+      const averagePriceByCity = await this.announcementRepository
+        .createQueryBuilder('announcement')
+        .innerJoin('announcement.user', 'user')
+        .select('AVG(announcement.price)', 'average_price')
+        .addSelect('"announcement"."model"', 'car_model')
+        .where('user.city = :userCity', { userCity })
+        .groupBy('"announcement"."model"')
+        .getRawMany();
+
+      // return averagePriceByCity;
+      const averagePriceInUkraine = await this.announcementRepository
+        .createQueryBuilder('announcement')
+        .innerJoin('announcement.user', 'user')
+        .select('AVG(announcement.price)', 'average_price')
+        .addSelect('"announcement"."model"', 'car_model') // Додаємо модель як колонку для групування
+        .groupBy('"announcement"."model"') // Групуємо за моделлю
+        .getRawMany();
+
+      const numberOfViews = await this.announcementRepository
+        .createQueryBuilder('announcement')
+        .select([
+          'SUM(announcement.viewsCount) AS totalViews',
+          "SUM(CASE WHEN DATE_TRUNC('day', announcement.createdAt) = CURRENT_DATE THEN announcement.viewsCount ELSE 0 END) AS viewsToday",
+          "SUM(CASE WHEN DATE_TRUNC('week', announcement.createdAt) = CURRENT_DATE THEN announcement.viewsCount ELSE 0 END) AS viewsThisWeek",
+          "SUM(CASE WHEN DATE_TRUNC('month', announcement.createdAt) = CURRENT_DATE THEN announcement.viewsCount ELSE 0 END) AS viewsThisMonth",
+        ])
+        .getRawOne();
+
+      return {
+        averagePriceByCity,
+        averagePriceInUkraine,
+        numberOfViews,
+      };
+    } catch (error) {
+      throw new Error(error);
+    }
+
+    //   const decodeToken = this.jwtService.decode(token);
+    //   const accountType = decodeToken?.['accountType'];
+    //   const userId = decodeToken?.['id'];
+    //   if (accountType === AccountTypeEnum.BASE) {
+    //     throw new HttpException(
+    //       'You need to purchase a "premium" account type',
+    //       HttpStatus.BAD_REQUEST,
+    //     );
+    //   }
+    //
+    //   const user = await this.userRepository.findOne({
+    //     where: { id: userId },
+    //     relations: ['announcements'],
+    //   });
+    //
+    //   const { city } = user;
+    //
+    //   const resultPriceByRegion = await this.announcementRepository
+    //     .createQueryBuilder('announcement')
+    //     .select(['model', 'user.city', 'AVG(price) AS average_price'])
+    //     .leftJoin('announcement.user', 'user')
+    //     .groupBy('model, user.city')
+    //     .getRawMany();
+    //   console.log(resultPriceByRegion);
+    //   return resultPriceByRegion
+    //     ? parseFloat(resultPriceByRegion.av)
+    //     : null;
+  }
+
+  async incrementViewsCount(announcementId: string): Promise<void> {
+    await this.announcementRepository
+      .createQueryBuilder()
+      .update(AnnouncementEntity)
+      .set({
+        viewsCount: () => 'viewsCount + 1',
+      })
+      .where('id = :id', { id: announcementId })
+      .execute();
   }
 }

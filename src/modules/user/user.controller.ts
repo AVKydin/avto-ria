@@ -30,10 +30,7 @@ import {
 } from '../../common/utils/file.upload.utils';
 import { UserCreateRequestDto } from './dto/request/user-create.request.dto';
 import { UserListQueryRequestDto } from './dto/request/user-list-query.request.dto';
-import {
-  UserLoginGoogleRequestDto,
-  UserLoginRequestDto,
-} from './dto/request/user-login.request.dto';
+import { UserLoginRequestDto } from './dto/request/user-login.request.dto';
 import { UserUpdateRequestDto } from './dto/request/user-update.request.dto';
 import { UserDetailsResponseDto } from './dto/response/user-details.response.dto';
 import { UserListResponseDto } from './dto/response/user-list.response.dto';
@@ -134,16 +131,14 @@ export class UserController {
     return 'Exit';
   }
 
-  @ApiOperation({ summary: 'User login by google' })
-  @Post('social')
-  async loginUserByGoogle(
-    @Body() body: UserLoginGoogleRequestDto,
-  ): Promise<{ token: string }> {
-    return await this.userService.loginSocial(body);
-  }
-
   @ApiOperation({ summary: 'Buy a premium account' })
   @ApiBearerAuth()
+  @RoleDecorator(
+    RoleEnum.BUYER,
+    RoleEnum.ADMIN,
+    RoleEnum.MANAGER,
+    RoleEnum.SELLER,
+  )
   @UseGuards(AuthGuard(), RoleGuard)
   @Patch('buy/premium')
   async buyPremiumType(@Req() req: Request): Promise<UserDetailsResponseDto> {

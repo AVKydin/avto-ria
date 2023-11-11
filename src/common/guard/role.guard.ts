@@ -6,24 +6,42 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
+import { UserEntity } from '../../database/entities/user.entity';
 
 @Injectable()
 export class RoleGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(
+    private reflector: Reflector,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+  ) {}
+
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    let userRole = this.reflector.get<string[]>('role', context.getHandler());
-    if (!userRole) {
-      userRole = this.reflector.get<string[]>('city', context.getClass());
-      if (!userRole) {
+    const user = request.user;
+
+    const userWithRole = await this.userRepository.findOne({
+      where: { id: user.id },
+      relations: ['role'],
+    });
+
+    const userRole: any = userWithRole?.role.role;
+
+    let allowedRoles = this.reflector.get<string[]>(
+      'role',
+      context.getHandler(),
+    );
+    if (!allowedRoles) {
+      allowedRoles = this.reflector.get<string[]>('role', context.getClass());
+      if (!allowedRoles) {
         return true;
       }
     }
-    const user = request.user;
 
-    // can write tour logic const announcement = carRepository.findOne({})
-
-    if (!userRole.includes(user.role)) {
+    if (!userRole || !allowedRoles.includes(userRole)) {
       throw new HttpException('Access denied.', HttpStatus.FORBIDDEN);
     }
 

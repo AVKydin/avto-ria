@@ -1,7 +1,5 @@
 import {
   BadRequestException,
-  HttpException,
-  HttpStatus,
   Injectable,
   UnauthorizedException,
   UnprocessableEntityException,
@@ -9,7 +7,6 @@ import {
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { InjectRedisClient, RedisClient } from '@webeleon/nestjs-redis';
 import * as bcrypt from 'bcrypt';
-import { OAuth2Client } from 'google-auth-library';
 import { EntityManager } from 'typeorm';
 
 import { AccountTypeEnum } from '../../common/enum/model/accountType.enum';
@@ -21,10 +18,7 @@ import { UserEntity } from '../../database/entities/user.entity';
 import { AuthService } from '../auth/auth.service';
 import { UserCreateRequestDto } from './dto/request/user-create.request.dto';
 import { UserListQueryRequestDto } from './dto/request/user-list-query.request.dto';
-import {
-  UserLoginGoogleRequestDto,
-  UserLoginRequestDto,
-} from './dto/request/user-login.request.dto';
+import { UserLoginRequestDto } from './dto/request/user-login.request.dto';
 import { UserUpdateRequestDto } from './dto/request/user-update.request.dto';
 import { UserRepository } from './user.repository';
 
@@ -39,9 +33,6 @@ export class UserService {
     @InjectRedisClient() readonly redisClient: RedisClient,
     @InjectEntityManager() private readonly entityManager: EntityManager,
   ) {}
-
-  private G_CLIENT_ID = this.customConfigService.googleCliId;
-  private G_SECRET = this.customConfigService.googleSecret;
 
   public async createUser(dto: UserCreateRequestDto): Promise<UserEntity> {
     return await this.entityManager.transaction(async (em) => {
@@ -131,26 +122,6 @@ export class UserService {
     await this.redisClient.setEx(token, 10000, token);
 
     return { token };
-  }
-
-  async loginSocial(data: UserLoginGoogleRequestDto) {
-    try {
-      const oAuthClient = new OAuth2Client(this.G_CLIENT_ID, this.G_SECRET);
-      const result = await oAuthClient.verifyIdToken({
-        idToken: data.accessToken,
-      });
-
-      const tokenPayload = result.getPayload();
-
-      const token = await this.authService.signIn({
-        id: tokenPayload.sub,
-      });
-
-      await this.redisClient.setEx(token, 1000, token);
-      return { token };
-    } catch (e) {
-      throw new HttpException('Google auth failed', HttpStatus.UNAUTHORIZED);
-    }
   }
 
   async buyPremiumType(token: string): Promise<any> {

@@ -63,6 +63,21 @@ export class AnnouncementController {
     return AnnouncementResponseMapper.toDetailsDto(announcement);
   }
 
+  @ApiOperation({ summary: 'information about announcement by id' })
+  @ApiBearerAuth()
+  @RoleDecorator(
+    RoleEnum.BUYER,
+    RoleEnum.ADMIN,
+    RoleEnum.MANAGER,
+    RoleEnum.SELLER,
+  )
+  @UseGuards(AuthGuard(), RoleGuard)
+  @Get('/infoAnnouncement/:announcementId')
+  async infoAnnouncement(@Req() req: Request): Promise<any> {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    return await this.announcementService.infoAnnouncement(token);
+  }
+
   @ApiOperation({ summary: 'Get announcement by id' })
   @ApiBearerAuth()
   @RoleDecorator(
@@ -76,30 +91,47 @@ export class AnnouncementController {
   async getAnnouncementById(
     @Param('announcementId') announcementId: string,
   ): Promise<AnnouncementDetailsResponseDto> {
+    await this.announcementService.incrementViewsCount(announcementId);
     const { announcement, allCurrency } =
       await this.announcementService.getAnnouncementById(announcementId);
     return AnnouncementResponseMapper.toDetailsDto(announcement, allCurrency);
   }
 
-  @ApiOperation({ summary: 'Update announcement by id' })
+  @ApiOperation({ summary: 'В розробці' })
+  @ApiBearerAuth()
+  @RoleDecorator(
+    RoleEnum.BUYER,
+    RoleEnum.ADMIN,
+    RoleEnum.MANAGER,
+    RoleEnum.SELLER,
+  )
+  @UseGuards(AuthGuard(), RoleGuard)
   @Patch(':announcementId')
-  async updateCarById(
+  async updateAnnouncementById(
     @Body() body: AnnouncementUpdateRequestDto,
     @Param('announcementId') announcementId: string,
   ): Promise<AnnouncementDetailsResponseDto> {
-    const car = await this.announcementService.updateCarById(
+    const announcement = await this.announcementService.updateAnnouncementById(
       announcementId,
       body,
     );
-    return AnnouncementResponseMapper.toDetailsDto(car);
+    return AnnouncementResponseMapper.toDetailsDto(announcement);
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiOperation({ summary: 'Delete announcement by id' })
+  @ApiOperation({ summary: 'В розробці' })
+  @ApiBearerAuth()
+  @RoleDecorator(
+    RoleEnum.BUYER,
+    RoleEnum.ADMIN,
+    RoleEnum.MANAGER,
+    RoleEnum.SELLER,
+  )
+  @UseGuards(AuthGuard(), RoleGuard)
   @Delete(':announcementId')
-  async deleteCar(
+  async deleteAnnouncement(
     @Param('announcementId') announcementId: string,
   ): Promise<void> {
-    await this.announcementService.deleteCar(announcementId);
+    await this.announcementService.deleteAnnouncement(announcementId);
   }
 }

@@ -44,12 +44,4 @@ export class CustomConfigService {
   get redis(): string {
     return this.configs.get<string>('REDIS');
   }
-
-  get googleCliId(): string {
-    return this.configs.get<string>('G_CLIENT_ID');
-  }
-
-  get googleSecret(): string {
-    return this.configs.get<string>('G_SECRET');
-  }
 }
