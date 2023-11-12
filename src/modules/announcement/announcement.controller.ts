@@ -35,7 +35,7 @@ export class AnnouncementController {
   @Get()
   async getAllAnnouncement(
     @Query() query: UserListQueryRequestDto,
-  ): Promise<AnnouncementDetailsResponseDto> {
+  ): Promise<AnnouncementDetailsResponseDto[]> {
     const result = await this.announcementService.getAllAnnouncement(query);
     return AnnouncementResponseMapper.toListDto(result, query);
   }

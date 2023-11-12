@@ -10,4 +10,6 @@ export class AnnouncementDetailsResponseDto {
   priceUah?: number;
   priceUsd?: number;
   priceEur?: number;
+  rateUsd?: number;
+  rateEur?: number;
 }

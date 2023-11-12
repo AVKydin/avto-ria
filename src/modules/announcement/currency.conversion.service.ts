@@ -20,20 +20,27 @@ export class CurrencyConversionService {
       switch (currency) {
         case CurrencyEnum.EUR:
           return {
-            currencyUah: response[0].buy * price,
-            currencyUsd: (response[0].buy * price) / response[1].sale,
+            currencyUah: parseFloat((response[0].buy * price).toFixed(2)),
+            currencyUsd: parseFloat(
+              ((response[0].buy * price) / response[1].sale).toFixed(2),
+            ),
+            response,
           };
           break;
         case CurrencyEnum.UAH:
           return {
-            currencyEur: response[0].buy * price,
-            currencyUsd: response[0].buy / price,
+            currencyEur: parseFloat((response[0].buy * price).toFixed(2)),
+            currencyUsd: parseFloat((response[0].buy / price).toFixed(2)),
+            response,
           };
           break;
         case CurrencyEnum.USD:
           return {
-            currencyEur: (response[1].buy * price) / response[0].sale,
-            currencyUah: response[0].buy * price,
+            currencyEur: parseFloat(
+              ((response[1].buy * price) / response[0].sale).toFixed(2),
+            ),
+            currencyUah: parseFloat((response[0].buy * price).toFixed(2)),
+            response,
           };
           break;
       }

@@ -17,7 +17,7 @@ export class AnnouncementResponseMapper {
     data: AnnouncementEntity,
     allCurrency: any = null,
   ): AnnouncementDetailsResponseDto {
-    if (allCurrency) {
+    if (typeof allCurrency === 'object') {
       return {
         id: data.id,
         year: data.year,
@@ -30,6 +30,8 @@ export class AnnouncementResponseMapper {
         priceUah: allCurrency.currencyUah,
         priceUsd: allCurrency.currencyUsd,
         priceEur: allCurrency.currencyEur,
+        rateUsd: parseFloat(allCurrency.response['1'].sale),
+        rateEur: parseFloat(allCurrency.response['0'].sale),
       };
     } else {
       return {
