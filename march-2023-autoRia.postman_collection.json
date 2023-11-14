@@ -1,0 +1,378 @@
+{
+	"info": {
+		"_postman_id": "d3edf81e-cdaf-4b1a-9788-a66bd5b4f2b2",
+		"name": "march-2023-autoRia",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27395796"
+	},
+	"item": [
+		{
+			"name": "userById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/users/ffb55e93-485d-463d-a5b7-686fb155e959",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"ffb55e93-485d-463d-a5b7-686fb155e959"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmYjU1ZTkzLTQ4NWQtNDYzZC1hNWI3LTY4NmZiMTU1ZTk1OSIsImFjY291bnRUeXBlIjoicHJlbWl1bSIsImlhdCI6MTY5OTcyMzU1OSwiZXhwIjoxNjk5ODA5OTU5fQ.x-P989bpQgSYqw8BqbgI5wrA1vXtb5OOmmJdUxktimY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "2",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all announcement",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/announcement",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"announcement"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "announcementById",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmYjU1ZTkzLTQ4NWQtNDYzZC1hNWI3LTY4NmZiMTU1ZTk1OSIsImFjY291bnRUeXBlIjoicHJlbWl1bSIsImlhdCI6MTY5OTc4MjMyNiwiZXhwIjoxNjk5ODY4NzI2fQ.uGHbL1HdpzgUHabuONuduhrVFZipclP-PRiLFEoFFtk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/announcement/a3621850-ea84-430c-97bb-3b163c87d57b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"announcement",
+						"a3621850-ea84-430c-97bb-3b163c87d57b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAveragePriceByRegion",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmYjU1ZTkzLTQ4NWQtNDYzZC1hNWI3LTY4NmZiMTU1ZTk1OSIsImFjY291bnRUeXBlIjoicHJlbWl1bSIsImlhdCI6MTY5OTczMTQyNSwiZXhwIjoxNjk5ODE3ODI1fQ.k-pMpG6K0F3eKch5C3Mv82pIqD7otUryChMLx-HOrlY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/announcement/infoAnnouncement/a3621850-ea84-430c-97bb-3b163c87d57b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"announcement",
+						"infoAnnouncement",
+						"a3621850-ea84-430c-97bb-3b163c87d57b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"fdsfsdf\",\n    \"age\": 23,\n    \"city\": \"f34sdf12dsfcxvccv\",\n    \"email\": \"q23q234dsdqq@qqq.qq\",\n    \"status\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create announcement",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmYjU1ZTkzLTQ4NWQtNDYzZC1hNWI3LTY4NmZiMTU1ZTk1OSIsImFjY291bnRUeXBlIjoicHJlbWl1bSIsImlhdCI6MTY5OTczMTQyNSwiZXhwIjoxNjk5ODE3ODI1fQ.k-pMpG6K0F3eKch5C3Mv82pIqD7otUryChMLx-HOrlY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"year\": 2020,\n\"price\": 1111,\n\"model\": \"s1\",\n\"brand\": \"audi\",\n\"title\": \"dfsdfsd\",\n\"description\": \"dgsdgsdgsd\",\n\"currency\": \"eur\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/announcement",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"announcement"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"asd@aaa.aa\",\n    \"password\": \"1321dsfsdfSDFSD\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "buy premium",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmYjU1ZTkzLTQ4NWQtNDYzZC1hNWI3LTY4NmZiMTU1ZTk1OSIsImFjY291bnRUeXBlIjoiYmFzZSIsImlhdCI6MTY5OTYwNDAyMCwiZXhwIjoxNjk5NjkwNDIwfQ.aiydF_dAs5NHeIAhahDxxLO4MJgTFzm2Ae_-N3NNvHY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/users/buy/premium",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"buy",
+						"premium"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login user Google",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"anakyd1984@gmail.com\",\n    \"accessToken\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6ImY1ZjRiZjQ2ZTUyYjMxZDliNjI0OWY3MzA5YWQwMzM4NDAwNjgwY2QiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI0MDc0MDg3MTgxOTIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI0MDc0MDg3MTgxOTIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTQ5Mjk3OTk4ODU2MTAyNDA5MjYiLCJlbWFpbCI6ImFuYWt5ZDE5ODRAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJtNnp5a2hjRXl0NVJsakx6SUd4MlR3IiwibmFtZSI6ItCQ0L3QsNGC0L7Qu9GW0Lkg0JrRg9C00ZbQvSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NMamZxdTdFTTF5RHFXa0tYZHlmOENjdHRfUEx3RjM3ekVLaEpBa0ppVjg9czk2LWMiLCJnaXZlbl9uYW1lIjoi0JDQvdCw0YLQvtC70ZbQuSIsImZhbWlseV9uYW1lIjoi0JrRg9C00ZbQvSIsImxvY2FsZSI6InVrIiwiaWF0IjoxNjk5MzU3ODcyLCJleHAiOjE2OTkzNjE0NzJ9.Z1dprSsKmd2YnpgwjL2mKr56XWz2ZM-IFOYmpzSHhGEso1TPlBHV3YkOQWD7bdPFJpvceaIHYelRxAVltysC1I9fJ1p1xiSx2uh_e3vNRDBT8tH9DVbB8ryNaFhWK9LUFhY5yotuy6Eu8KO7HCm_hIvKUxrqM_YnRbej4pCD7k1NVTCvAlOOxh9ZVrwCmW6i7SnFke6jWx2I0UoYhAaOJLLk8GqMFd2Hzi_gYdYluHK_KG7H4SqIsTH3EoqEmpF5LSB8Tqo6BGe_JuHI_jz8-gKR4PGIn4mVX5MdqMhw88UmSipFAXJQD2UzpoN3DcqbIxeT4VAUgVpIgEcUfL4bfA\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/users/social",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"social"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQyMWNmZDA0LTY1NTQtNDI2ZC05MDgxLWNkYjczNDI4YTA4MiIsImlhdCI6MTY5OTQ1MjI2MywiZXhwIjoxNjk5NTM4NjYzfQ.Qh8ZxssS3qpvZGeDySM7NSBKcu_kf4lsw_s0fg6C4fI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"city\": \"f34sdf12dsfcxvccv\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/users8634814a-4a4b-4471-8d37-fb51fafbf84e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users8634814a-4a4b-4471-8d37-fb51fafbf84e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQyMWNmZDA0LTY1NTQtNDI2ZC05MDgxLWNkYjczNDI4YTA4MiIsImlhdCI6MTY5OTQ1Njg1MSwiZXhwIjoxNjk5NTQzMjUxfQ.xoajXBbX-nXEaWEJDouUcBJrlIgttR8Ktpvx4e2PNZQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"fdsfsdf\",\n    \"age\": 233,\n    \"city\": \"f34sdf12dsfcxvccv\",\n    \"status\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/users/16427bd9-da7a-4fb2-b1d5-94be9cdacc3e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"16427bd9-da7a-4fb2-b1d5-94be9cdacc3e"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
